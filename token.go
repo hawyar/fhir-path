@@ -13,7 +13,6 @@ const (
 	TIME     = "TIME"
 	QUANTITY = "QUANTITY"
 
-	// operators http://hl7.org/fhirpath/#operators
 	PLUS       = "+"
 	MINUS      = "-"
 	ASTERISK   = "*"
@@ -25,7 +24,6 @@ const (
 	EQUIVALENT = "~"
 	BANG       = "!"
 
-	// symbols http://hl7.org/fhirpath/#symbols
 	LPAREN    = "("
 	RPAREN    = ")"
 	LBRACKET  = "["
@@ -37,7 +35,6 @@ const (
 	AMPERSAND = "&"
 	BACKTICK  = "`"
 
-	// keywords http://hl7.org/fhirpath/#keywords
 	INDEX        = "$index"
 	THIS         = "$this"
 	TOTAL        = "$total"
@@ -74,10 +71,8 @@ const (
 	NOT          = "not"
 
 	EXISTS = "exists"
-
-	// todo: add functions http://hl7.org/fhirpath/#functions
-	FNSELECT = "select"
-	FNCOUNT  = "count"
+	SELECT = "select"
+	COUNT  = "count"
 )
 
 type TokenType string
@@ -98,8 +93,8 @@ var Keywords = map[string]TokenType{
 	"and":      AND,
 	"as":       AS,
 	"contains": CONTAINS,
-	"count":    FNCOUNT,
-	"select":   FNSELECT,
+	"count":    COUNT,
+	"select":   SELECT,
 	"exists":   EXISTS,
 }
 

@@ -1,16 +1,26 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
 )
 
 func main() {
-	if len(os.Args) != 2 {
-		panic("query is required")
+	var ast = false
+
+	flag.BoolVar(&ast, "ast", false, "Print the FHIR PATH abstract syntax tree")
+	flag.Parse()
+
+	if ast {
+		fmt.Println("ast")
 	}
 
-	raw := os.Args[1]
+	if len(os.Args[1:]) == 0 {
+		fmt.Println("Usage: fhirpath <query> -A")
+		fmt.Println("Example: fhirpath 'Patient.name.given.exists()' -A")
+		os.Exit(1)
+	}
 
-	fmt.Printf("input: %s \n", raw)
+	fmt.Println(os.Args[1:])
 }
