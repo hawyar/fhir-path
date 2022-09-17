@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 const (
 	ILLEGAL = "ILLEGAL"
 	EOF     = "EOF"
@@ -16,11 +18,11 @@ const (
 	// operators http://hl7.org/fhirpath/#operators
 	PLUS       = "+"
 	MINUS      = "-"
-	MULTIPLY   = "*"
+	ASTERISK   = "*"
 	DIVISION   = "/"
-	GREATER    = ">"
-	LESS       = "<"
-	EQUAL      = "="
+	GT         = ">"
+	LT         = "<"
+	ASSIGN     = "="
 	EQUIVALENT = "~"
 	BANG       = "!"
 
@@ -83,6 +85,10 @@ type Token struct {
 	Literal string
 }
 
+func newToken(val byte, t TokenType) Token {
+	return Token{Type: t, Literal: string(val)}
+}
+
 var Keywords = map[string]TokenType{
 	"count": COUNT,
 }
@@ -90,6 +96,7 @@ var Keywords = map[string]TokenType{
 func LookupIdent(ident string) TokenType {
 	for k, v := range Keywords {
 		if ident == k {
+			fmt.Printf("found keyword: %s \n", k)
 			return v
 		}
 	}
