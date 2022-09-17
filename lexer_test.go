@@ -1,12 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"testing"
 )
 
 func TestNextToken(t *testing.T) {
-	//more := "(4+5).count()"
+	//basic := "(4+5).count()"
 	//tests := []struct {
 	//	tokenType TokenType
 	//	literal   string
@@ -21,15 +20,20 @@ func TestNextToken(t *testing.T) {
 	//	{LPAREN, "("},
 	//	{RPAREN, ")"},
 	//}
-
-	basic := `().`
+	basic := "Patient.name.where(given = 'Wouter').exists()"
 	tests := []struct {
 		tokenType TokenType
 		literal   string
 	}{
 		{LPAREN, "("},
+		{INT, "4"},
+		{PLUS, "+"},
+		{INT, "5"},
 		{RPAREN, ")"},
 		{PERIOD, "."},
+		{COUNT, "count"},
+		{LPAREN, "("},
+		{RPAREN, ")"},
 	}
 
 	l := NewLexer(basic)
@@ -38,13 +42,11 @@ func TestNextToken(t *testing.T) {
 		current := l.NextToken()
 
 		if current.Type != val.tokenType {
-			t.Fatalf("tests[%d] - wrong tokenType. expected = %q, got = %q", i, val.tokenType, current.Type)
+			t.Fatalf("test[%d] - wrong tokenType. expected = %q, got = %q", i, val.tokenType, current.Type)
 		}
 
 		if current.Literal != val.literal {
-			t.Fatalf("tests[%d] - wrong literal val. expected = %q, got = %q", i, val.literal, current.Literal)
+			t.Fatalf("test[%d] - wrong literal val. expected = %q, got = %q", i, val.literal, current.Literal)
 		}
 	}
-
-	fmt.Println(l)
 }

@@ -14,15 +14,15 @@ const (
 	QUANTITY = "QUANTITY"
 
 	// operators http://hl7.org/fhirpath/#operators
-	PLUS        = "+"
-	MINUS       = "-"
-	MULTIPLY    = "*"
-	DIVISION    = "/"
-	GREATER     = ">"
-	LESS        = "<"
-	EQUAL       = "="
-	EQUIVALENT  = "~"
-	EXLCAMATION = "!"
+	PLUS       = "+"
+	MINUS      = "-"
+	MULTIPLY   = "*"
+	DIVISION   = "/"
+	GREATER    = ">"
+	LESS       = "<"
+	EQUAL      = "="
+	EQUIVALENT = "~"
+	BANG       = "!"
 
 	// symbols http://hl7.org/fhirpath/#symbols
 	LPAREN    = "("
@@ -71,8 +71,7 @@ const (
 	YEARS        = "years"
 	UNION        = "union"
 	NOT          = "not"
-
-	COUNT = "count"
+	COUNT        = "count"
 
 	// todo: add functions http://hl7.org/fhirpath/#functions
 )
@@ -82,4 +81,17 @@ type TokenType string
 type Token struct {
 	Type    TokenType
 	Literal string
+}
+
+var Keywords = map[string]TokenType{
+	"count": COUNT,
+}
+
+func LookupIdent(ident string) TokenType {
+	for k, v := range Keywords {
+		if ident == k {
+			return v
+		}
+	}
+	return IDENT
 }
