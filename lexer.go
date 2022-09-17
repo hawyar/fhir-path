@@ -1,11 +1,9 @@
 package main
 
-import "fmt"
-
 type Lexer struct {
 	input string
-	pos   int // current position
-	next  int // next to current
+	pos   int
+	next  int
 	ch    byte
 }
 
@@ -27,6 +25,9 @@ func (l *Lexer) readChar() {
 
 func (l *Lexer) NextToken() Token {
 	var t Token
+
+	l.skipWhitespace()
+
 	switch l.ch {
 	case '(':
 		t = newToken(l.ch, LPAREN)
@@ -61,10 +62,16 @@ func (l *Lexer) NextToken() Token {
 	case '<':
 		t = newToken(l.ch, LT)
 	case '=':
-		t = newToken(l.ch, ASSIGN)
+		t = newToken(l.ch, EQ)
 	case '~':
 		t = newToken(l.ch, EQUIVALENT)
 	case '!':
+		if l.peekChar() == '=' {
+			curr := l.ch
+			l.readChar()
+			literal := curr + l.ch
+			t = newToken(literal, NOT_EQ)
+		}
 		t = newToken(l.ch, BANG)
 	case 0:
 		t.Literal = ""
@@ -82,9 +89,22 @@ func (l *Lexer) NextToken() Token {
 			t = newToken(l.ch, ILLEGAL)
 		}
 	}
-	fmt.Printf("found token: %s \n", t.Type)
 	l.readChar()
 	return t
+}
+
+func (l *Lexer) skipWhitespace() {
+	for l.ch == '\t' || l.ch == '\n' || l.ch == '\r' || l.ch == ' ' {
+		l.readChar()
+	}
+}
+
+func (l *Lexer) peekChar() byte {
+	if l.next >= len(l.input) {
+		return 0
+	} else {
+		return l.input[l.next]
+	}
 }
 
 func (l *Lexer) readIdentifier() string {

@@ -1,3 +1,4 @@
 (4+5).count()
 Patient.name.exists()
-Patient.identifier.exists(use = 'official')
+Patient.meta.tag.distinct()
+Bundle.entry.select(resource as Patient)

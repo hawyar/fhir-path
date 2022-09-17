@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 const (
 	ILLEGAL = "ILLEGAL"
 	EOF     = "EOF"
@@ -22,7 +20,8 @@ const (
 	DIVISION   = "/"
 	GT         = ">"
 	LT         = "<"
-	ASSIGN     = "="
+	EQ         = "="
+	NOT_EQ     = "!="
 	EQUIVALENT = "~"
 	BANG       = "!"
 
@@ -73,9 +72,12 @@ const (
 	YEARS        = "years"
 	UNION        = "union"
 	NOT          = "not"
-	COUNT        = "count"
+
+	EXISTS = "exists"
 
 	// todo: add functions http://hl7.org/fhirpath/#functions
+	FNSELECT = "select"
+	FNCOUNT  = "count"
 )
 
 type TokenType string
@@ -90,13 +92,20 @@ func newToken(val byte, t TokenType) Token {
 }
 
 var Keywords = map[string]TokenType{
-	"count": COUNT,
+	"$index":   INDEX,
+	"$this":    THIS,
+	"$total":   TOTAL,
+	"and":      AND,
+	"as":       AS,
+	"contains": CONTAINS,
+	"count":    FNCOUNT,
+	"select":   FNSELECT,
+	"exists":   EXISTS,
 }
 
 func LookupIdent(ident string) TokenType {
 	for k, v := range Keywords {
 		if ident == k {
-			fmt.Printf("found keyword: %s \n", k)
 			return v
 		}
 	}
