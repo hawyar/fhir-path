@@ -105,3 +105,36 @@ func TestOnSelect(t *testing.T) {
 		}
 	}
 }
+
+func TestOnThis(t *testing.T) {
+	query := `generalPractitioner.all($this is Practitioner)`
+
+	expected := []struct {
+		tokenType TokenType
+		literal   string
+	}{
+		{IDENT, "generalPractitioner"},
+		{PERIOD, "."},
+		{ALL, "all"},
+		{LPAREN, "("},
+		{THIS, "$this"},
+		{IS, "is"},
+		{IDENT, "Practitioner"},
+		{RPAREN, ")"},
+		{EOF, ""},
+	}
+
+	l := NewLexer(query)
+
+	for i, val := range expected {
+		token := l.NextToken()
+
+		if token.Type != val.tokenType {
+			t.Fatalf("test[%d] - wrong tokenType expected = %q, got = %q", i, val.tokenType, token.Type)
+		}
+
+		if token.Literal != val.literal {
+			t.Fatalf("test[%d] - wrong literal val expected = %q, got = %q", i, val.literal, token.Literal)
+		}
+	}
+}

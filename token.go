@@ -20,20 +20,23 @@ const (
 	GT         = ">"
 	LT         = "<"
 	EQ         = "="
+	LT_EQ      = "<="
+	GT_EQ      = ">="
 	NOT_EQ     = "!="
 	EQUIVALENT = "~"
 	BANG       = "!"
 
-	LPAREN    = "("
-	RPAREN    = ")"
-	LBRACKET  = "["
-	RBRACKET  = "]"
-	LBRACE    = "{"
-	RBRACE    = "}"
-	PERIOD    = "."
-	COMMA     = ","
-	AMPERSAND = "&"
-	BACKTICK  = "`"
+	LPAREN      = "("
+	RPAREN      = ")"
+	LBRACKET    = "["
+	RBRACKET    = "]"
+	LBRACE      = "{"
+	RBRACE      = "}"
+	PERIOD      = "."
+	COMMA       = ","
+	AMPERSAND   = "&"
+	DOLLAR_SIGN = "$"
+	BACKTICK    = "`"
 
 	INDEX        = "$index"
 	THIS         = "$this"
@@ -73,6 +76,7 @@ const (
 	EXISTS = "exists"
 	SELECT = "select"
 	COUNT  = "count"
+	ALL    = "all"
 )
 
 type TokenType string
@@ -96,6 +100,8 @@ var Keywords = map[string]TokenType{
 	"count":    COUNT,
 	"select":   SELECT,
 	"exists":   EXISTS,
+	"all":      ALL,
+	"is":       IS,
 }
 
 func LookupIdent(ident string) TokenType {

@@ -59,8 +59,24 @@ func (l *Lexer) NextToken() Token {
 		t = newToken(l.ch, DIVISION)
 	case '>':
 		t = newToken(l.ch, GT)
+	case '$':
+		if isLetter(l.peekChar()) {
+			curr := l.ch
+			l.readChar()
+			t.Literal = string(curr) + l.readIdentifier()
+			t.Type = LookupIdent(t.Literal)
+		} else {
+			t = newToken(l.ch, ILLEGAL)
+		}
 	case '<':
-		t = newToken(l.ch, LT)
+		if l.peekChar() == '=' {
+			curr := l.ch
+			l.readChar()
+			literal := curr + l.ch
+			t = newToken(literal, LT_EQ)
+		} else {
+			t = newToken(l.ch, LT)
+		}
 	case '=':
 		t = newToken(l.ch, EQ)
 	case '~':
@@ -71,8 +87,9 @@ func (l *Lexer) NextToken() Token {
 			l.readChar()
 			literal := curr + l.ch
 			t = newToken(literal, NOT_EQ)
+		} else {
+			t = newToken(l.ch, BANG)
 		}
-		t = newToken(l.ch, BANG)
 	case 0:
 		t.Literal = ""
 		t.Type = EOF

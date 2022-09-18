@@ -2,3 +2,4 @@
 Patient.name.exists()
 Patient.meta.tag.distinct()
 Bundle.entry.select(resource as Patient)
+generalPractitioner.all($this is Practitioner)

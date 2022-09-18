@@ -21,6 +21,5 @@ func main() {
 		fmt.Println("Example: fhirpath 'Patient.name.given.exists()' -A")
 		os.Exit(1)
 	}
-
 	fmt.Println(os.Args[1:])
 }
