@@ -6,7 +6,7 @@ import (
 	"io"
 )
 
-func Start(in io.Reader, out io.Writer) {
+func StartRepl(in io.Reader, out io.Writer) {
 	scanner := bufio.NewScanner(in)
 
 	for {
@@ -21,5 +21,9 @@ func Start(in io.Reader, out io.Writer) {
 		line := scanner.Text()
 
 		l := NewLexer(line)
+
+		for tok := l.NextToken(); tok.Type != EOF; tok = l.NextToken() {
+			fmt.Fprintf(out, "%+v\n", tok)
+		}
 	}
 }

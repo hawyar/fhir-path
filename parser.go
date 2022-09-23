@@ -7,19 +7,21 @@ import (
 )
 
 func main() {
-	var ast = false
+	var input = ""
 
-	flag.BoolVar(&ast, "ast", false, "Print the FHIR PATH abstract syntax tree")
+	flag.StringVar(&input, "i", "", "The FHIR path query")
 	flag.Parse()
 
-	if ast {
-		fmt.Println("ast")
+	if len(os.Args[1:]) == 0 {
+		fmt.Println("starting repl")
+		StartRepl(os.Stdin, os.Stdout)
 	}
 
-	if len(os.Args[1:]) == 0 {
-		fmt.Println("Usage: fhirpath <query> -A")
-		fmt.Println("Example: fhirpath 'Patient.name.given.exists()' -A")
-		os.Exit(1)
+	l := NewLexer(input)
+
+	fmt.Println("tokens: ")
+	for token := l.NextToken(); token.Type != EOF; token = l.NextToken() {
+		fmt.Printf("%+v \n", token)
 	}
-	fmt.Println(os.Args[1:])
+	os.Exit(1)
 }
